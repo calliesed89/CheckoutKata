@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CheckoutKata.Test
 {
-    public class Tests
+    public class CheckoutUnitTests
     {
         private ICheckout checkout;
         [SetUp]
@@ -34,7 +34,7 @@ namespace CheckoutKata.Test
         }
 
         [Test]
-        public void WhenNoItemScanned_ThrowsException()
+        public void WhenEmptyValueItemScanned_ThrowsException()
         {
             Assert.Throws<Exception>(() => checkout.Scan(""));
         }
@@ -51,6 +51,20 @@ namespace CheckoutKata.Test
         {
             ScanArrayHelper(new string[] { "A", "A", "A" });
             Assert.AreEqual(130, checkout.GetTotalPrice());
+        }
+
+        [Test]
+        public void WhenMultipeItemsWithDiscountsScanned_GetTotal_AppliesDiscount()
+        {
+            ScanArrayHelper(new string[] { "A", "A", "A", "B", "B" });
+            Assert.AreEqual(175, checkout.GetTotalPrice());
+        }
+
+        [Test]
+        public void WhenMultipeItemsScanned_GetTotal_AppliesDiscountToOnlyValidItems()
+        {
+            ScanArrayHelper(new string[] { "A", "A", "A", "A", "B", "C" });
+            Assert.AreEqual(230, checkout.GetTotalPrice());
         }
 
         private void ScanArrayHelper(string[] items)
