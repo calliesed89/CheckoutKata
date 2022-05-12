@@ -32,5 +32,18 @@ namespace CheckoutKata.Test
         {
             Assert.Throws<Exception>(() => checkout.Scan("E"));
         }
+
+        [Test]
+        public void WhenNoItemScanned_ThrowsException()
+        {
+            Assert.Throws<Exception>(() => checkout.Scan(""));
+        }
+
+        [Test]
+        public void WhenSingleItemScanned_GetTotal_ReturnsItemValue()
+        {
+            checkout.Scan("A");
+            Assert.AreEqual(50, checkout.GetTotalPrice());
+        }
     }
 }
