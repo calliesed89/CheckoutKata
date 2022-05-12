@@ -12,13 +12,18 @@ namespace CheckoutKata.Test
         {
             var items = new List<Item>
             {
-                new Item{SKU = "A", Price = 50, specialPrice = new SpecialPrice(){ ItemCount = 3, ItemsTotal = 130} },
-                new Item{SKU = "B", Price = 30,  specialPrice = new SpecialPrice(){ ItemCount = 2, ItemsTotal = 45} },
+                new Item{SKU = "A", Price = 50},
+                new Item{SKU = "B", Price = 30},
                 new Item{SKU = "C", Price = 20},
                 new Item{SKU = "D", Price = 15}
             };
 
-            checkout = new Checkout(items);
+            var specialPrices = new List<PricingRules> {
+                new PricingRules(){ SKU = "A", ItemCount = 3, ItemsTotal = 130},
+                new PricingRules(){ SKU = "B", ItemCount = 2, ItemsTotal = 45}
+            };
+
+            checkout = new Checkout(items, specialPrices);
         }
 
         [Test]

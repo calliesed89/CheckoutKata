@@ -8,11 +8,13 @@ namespace CheckoutKata
     {
         private List<Item> items;
         private List<string> scannedItems;
+        private List<PricingRules> pricingRules;
 
-        public Checkout(List<Item> items)
+        public Checkout(List<Item> items, List<PricingRules> pricing)
         {
             this.items = items;
             scannedItems = new List<string>();
+            pricingRules = pricing;
         }
 
         public int GetTotalPrice()
@@ -55,16 +57,16 @@ namespace CheckoutKata
 
         private int GetSpecialPriceDiscount(string item, int itemCount)
         {
-            var discountedItem = items.First(x => x.SKU.Equals(item));
-
-            if (discountedItem.specialPrice is null)
+            var discountedItem = pricingRules.FirstOrDefault(x => x.SKU.Equals(item));
+            
+            if (discountedItem is null)
                 return 0;
 
-            var quantity = discountedItem.specialPrice.ItemCount;
+            var quantity = discountedItem.ItemCount;
 
-            var discountedPrice = discountedItem.specialPrice.ItemsTotal;
+            var discountedPrice = discountedItem.ItemsTotal;
 
-            var difference = (discountedItem.Price * quantity) - discountedPrice;
+            var difference = (Price(item) * quantity) - discountedPrice;
 
             return (itemCount / quantity) * difference;
         }

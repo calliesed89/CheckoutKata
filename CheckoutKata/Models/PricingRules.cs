@@ -1,11 +1,12 @@
 ﻿namespace CheckoutKata
 {
-    public class SpecialPrice
+    public class PricingRules
     {
-        public SpecialPrice()
+        public PricingRules()
         {
         }
 
+        public string SKU { get; set; }
         public int ItemCount { get; set; }
         public int ItemsTotal { get; set; }
     }
