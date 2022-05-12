@@ -54,17 +54,25 @@ namespace CheckoutKata.Test
         }
 
         [Test]
-        public void WhenMultipeItemsWithDiscountsScanned_GetTotal_AppliesDiscount()
+        public void WhenMultipeItemsWithSpecialPriceScanned_GetTotal_AppliesSpecialPrice()
         {
             ScanArrayHelper(new string[] { "A", "A", "A", "B", "B" });
             Assert.AreEqual(175, checkout.GetTotalPrice());
         }
 
         [Test]
-        public void WhenMultipeItemsScanned_GetTotal_AppliesDiscountToOnlyValidItems()
+        public void WhenMultipeItemsScanned_GetTotal_AppliesSpecialPricetToOnlyValidItems()
         {
             ScanArrayHelper(new string[] { "A", "A", "A", "A", "B", "C" });
             Assert.AreEqual(230, checkout.GetTotalPrice());
+        }
+
+
+        [Test]
+        public void WhenMultipeItemsScannedOutOfOrder_GetTotal_AppliesSpecialPrice()
+        {
+            ScanArrayHelper(new string[] { "A", "B", "A", "A", "B"});
+            Assert.AreEqual(175, checkout.GetTotalPrice());
         }
 
         private void ScanArrayHelper(string[] items)
