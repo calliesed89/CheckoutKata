@@ -18,7 +18,7 @@ namespace CheckoutKata
         public int GetTotalPrice()
         {
             var total = scannedItems.Sum(x => Price(x));
-            return total;
+            return total - GetTotalSpecialPriceDiscount();
         }
 
         public void Scan(string item)
@@ -34,6 +34,39 @@ namespace CheckoutKata
             }
 
             scannedItems.Add(item);
+        }
+
+        private int GetTotalSpecialPriceDiscount()
+        {
+            var totalDiscount = 0;
+            var groupedItems = scannedItems
+                .GroupBy(u => u).Select(grp => new
+                {
+                    item = grp.Key,
+                    total = grp.Count(),
+                    discount = GetSpecialPriceDiscount(grp.Key, grp.Count())
+
+                }).ToList();
+
+            groupedItems.ForEach(x => totalDiscount += x.discount);
+
+            return totalDiscount;
+        }
+
+        private int GetSpecialPriceDiscount(string item, int itemCount)
+        {
+            var discountedItem = items.First(x => x.SKU.Equals(item));
+
+            if (discountedItem.specialPrice is null)
+                return 0;
+
+            var quantity = discountedItem.specialPrice.ItemCount;
+
+            var discountedPrice = discountedItem.specialPrice.ItemsTotal;
+
+            var difference = (discountedItem.Price * quantity) - discountedPrice;
+
+            return (itemCount / quantity) * difference;
         }
 
         private int Price(string sku)

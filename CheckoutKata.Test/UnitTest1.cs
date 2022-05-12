@@ -45,5 +45,20 @@ namespace CheckoutKata.Test
             checkout.Scan("A");
             Assert.AreEqual(50, checkout.GetTotalPrice());
         }
+
+        [Test]
+        public void WhenItemsWithSpecialPriceScanned_GetTotal_AppliesNewPrice()
+        {
+            ScanArrayHelper(new string[] { "A", "A", "A" });
+            Assert.AreEqual(130, checkout.GetTotalPrice());
+        }
+
+        private void ScanArrayHelper(string[] items)
+        {
+            foreach (var item in items)
+            {
+                checkout.Scan(item);
+            }
+        }
     }
 }
