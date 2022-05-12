@@ -5,3 +5,5 @@
 /CheckoutKata/obj
 /.vs
 /CheckoutKata.Test/obj
+/CheckoutKata/bin/Debug/netcoreapp3.1
+/CheckoutKata.Test/bin/Debug/netcoreapp3.1

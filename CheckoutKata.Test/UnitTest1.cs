@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace CheckoutKata.Test
@@ -21,9 +22,15 @@ namespace CheckoutKata.Test
         }
 
         [Test]
-        public void Test1()
+        public void NoItemsScanned_WhenGetTotalPrice_ReturnsZero()
         {
-            Assert.Pass();
+            Assert.AreEqual(0, checkout.GetTotalPrice());
+        }
+
+        [Test]
+        public void WhenInvalidItemScanned_ThrowsException()
+        {
+            Assert.Throws<Exception>(() => checkout.Scan("E"));
         }
     }
 }
